@@ -1,0 +1,40 @@
+# RPA 项目管理系统 —— 一键部署编排
+# 用法见根目录 DEPLOY.md；MySQL 主库在编排之外（172.16.50.20），不由本文件管理。
+services:
+  backend:
+    build: ./backend
+    container_name: rpaweb-backend
+    restart: unless-stopped
+    ports:
+      - "5090:5090"
+    volumes:
+      # 保留历史迁移库、令牌密钥和上传目录；Skill/Python 资产写入 DBserver MySQL。
+      - ./backend/var:/app/var
+    environment:
+      - TZ=Asia/Shanghai
+      # 必须显式指定 DBserver；后端还会在启动时校验主机、端口与 rpa_web 库名。
+      - RPA_DATABASE_URI=${RPA_DATABASE_URI:?Set RPA_DATABASE_URI in the root .env file}
+      # 找回密码邮件（真实账号与密码放在宿主机环境变量或 .env，禁止写入本文件）
+      - PASSWORD_RESET_FRONTEND_URL=http://172.16.50.20:8090
+      - PASSWORD_RESET_SMTP_HOST=${PASSWORD_RESET_SMTP_HOST:-smtp.qiye.aliyun.com}
+      - PASSWORD_RESET_SMTP_PORT=${PASSWORD_RESET_SMTP_PORT:-465}
+      - PASSWORD_RESET_SMTP_USERNAME=${PASSWORD_RESET_SMTP_USERNAME:-}
+      - PASSWORD_RESET_SMTP_PASSWORD=${PASSWORD_RESET_SMTP_PASSWORD:-}
+      - PASSWORD_RESET_SMTP_USE_TLS=${PASSWORD_RESET_SMTP_USE_TLS:-false}
+      - PASSWORD_RESET_SMTP_USE_SSL=${PASSWORD_RESET_SMTP_USE_SSL:-true}
+      - PASSWORD_RESET_EMAIL_FROM=${PASSWORD_RESET_EMAIL_FROM:-}
+
+  frontend:
+    build:
+      context: ./frontend
+      # ====== 部署前必改 ======
+      # 把下面 IP 换成部署服务器的实际内网 IP，然后取消注释。
+      # 部署后内网其他机器才能访问数据（前端 JS 跨机器请求后端）。
+      args:
+        VITE_API_BASE_URL: http://172.16.50.20:5090
+    container_name: rpaweb-frontend
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+    depends_on:
+      - backend

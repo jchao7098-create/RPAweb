@@ -1,0 +1,55 @@
+# Local secrets and machine-specific configuration
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+!frontend/.env.development
+
+# Python environments, caches and test output
+backend/venv/
+.venv/
+venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+**/.pytest_cache/
+.coverage
+htmlcov/
+
+# Frontend dependencies and generated builds
+frontend/node_modules/
+node_modules/
+frontend/dist/
+dist/
+coverage/
+
+# Runtime data, local databases, credentials and uploads
+backend/var/
+backend/uploads/
+uploads/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.key
+*.pem
+*.pfx
+*.pid
+*.log
+
+# Local tooling and transfer artifacts
+.codex_tmp/
+.superpowers/
+.workbuddy/
+.claude/
+*.zip
+RPAweb_backup*/
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

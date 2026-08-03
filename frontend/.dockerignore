@@ -1,0 +1,5 @@
+# 构建上下文排除项（node_modules 里含 Windows 原生模块，绝不能带进 Linux 构建）
+node_modules/
+dist/
+Dockerfile
+.dockerignore

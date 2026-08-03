@@ -1,0 +1,19 @@
+# 统一编辑器行为：编码、缩进、行尾空白。
+# 不强制 end_of_line，避免对现有混合行尾文件造成大面积无意义改动。
+root = true
+
+[*]
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{js,ts,vue,json,css,html,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false

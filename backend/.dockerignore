@@ -1,0 +1,8 @@
+# 构建上下文排除项：本地虚拟环境、运行时数据、缓存
+venv/
+var/
+__pycache__/
+*.pyc
+uploads/
+Dockerfile
+.dockerignore
