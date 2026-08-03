@@ -2,6 +2,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { ASSET_TYPES, ASSET_STATUS_TAG_TYPES } from '@/config/assetTypes'
 import { validateFileName } from '@/utils/fileValidation'
+import { DEPARTMENT_OPTIONS } from '@/utils/departments'
 import { submitAsset, fetchMyAssets } from '@/api/assets'
 import AssetEditDialog from './AssetEditDialog.vue'
 
@@ -152,8 +153,22 @@ const handleEdited = (updated) => {
         </el-form-item>
 
         <el-form-item label="*部门名称">
-          <el-input v-model="form.department" maxlength="50" />
-          <div class="form-note">请输入您的完整部门名称，例如：客服部</div>
+          <el-select
+            v-model="form.department"
+            filterable
+            allow-create
+            default-first-option
+            placeholder="请选择部门"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="option in DEPARTMENT_OPTIONS"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
+          <div class="form-note">请优先选择标准部门；选择“其他”时可直接输入实际部门名称</div>
         </el-form-item>
 
         <el-form-item label="*提交人姓名">

@@ -3,6 +3,7 @@ import { computed, ref, onMounted } from 'vue'
 import http from '@/api/http'
 import { fetchMyRequirements } from '@/api/requirements'
 import RequirementEditDialog from './RequirementEditDialog.vue'
+import { DEPARTMENT_OPTIONS } from '@/utils/departments'
 
 const form = ref({
   user_id: '',             // ✅ 新增 user_id 字段
@@ -90,8 +91,8 @@ onMounted(() => {
 
 // 提交需求
 const submitRequirement = async () => {
-  if (!form.value.title || !form.value.requester) {
-    ElMessage.error('标题和需求人姓名不能为空')
+  if (!form.value.department || !form.value.title || !form.value.requester) {
+    ElMessage.error('部门、标题和需求人姓名不能为空')
     return
   }
 
@@ -171,8 +172,22 @@ const handleEdited = (updated) => {
       <el-form :model="form" label-width="120px">
     <!-- 基本信息 -->
     <el-form-item label="*部门名称">
-      <el-input v-model="form.department" />
-      <div class="form-note">请输入您的完整部门名称，例如：客服部</div>
+      <el-select
+        v-model="form.department"
+        filterable
+        allow-create
+        default-first-option
+        placeholder="请选择部门"
+        style="width: 100%"
+      >
+        <el-option
+          v-for="option in DEPARTMENT_OPTIONS"
+          :key="option.value"
+          :label="option.label"
+          :value="option.value"
+        />
+      </el-select>
+      <div class="form-note">请优先选择标准部门；选择“其他”时可直接输入实际部门名称</div>
     </el-form-item>
 
     <el-form-item label="*需求人姓名">

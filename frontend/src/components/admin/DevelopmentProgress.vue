@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import http from '@/api/http'
 import { fetchAdminAssets, updateAssetProgress } from '@/api/assets'
-import { departmentFromProjectName } from '@/utils/departments'
+import { departmentFromProjectName, departmentGroup } from '@/utils/departments'
 
 const props = defineProps({
   apiPrefix: { type: String, default: '/admin' },
@@ -125,7 +125,7 @@ const groupedProjects = computed(() => {
 const groupedAssets = computed(() => {
   const groups = {}
   visibleAssets.value.forEach((asset) => {
-    const dept = asset.department || '未指定部门'
+    const dept = departmentGroup(asset.department)
     if (!groups[dept]) groups[dept] = []
     groups[dept].push(asset)
   })

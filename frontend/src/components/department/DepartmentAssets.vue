@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { ASSET_TYPES, ASSET_STATUS_TAG_TYPES } from '@/config/assetTypes'
 import { formatFileSize } from '@/utils/format'
 import { fetchPublicAssets } from '@/api/assets'
+import { departmentGroup } from '@/utils/departments'
 
 const props = defineProps({
   // 对应 ASSET_TYPES 里的键，由路由以 props 形式传入
@@ -71,7 +72,7 @@ const filteredAssets = computed(() => {
 const groupedByDepartment = computed(() => {
   const groups = {}
   filteredAssets.value.forEach((asset) => {
-    const dept = asset.department || '未指定部门'
+    const dept = departmentGroup(asset.department)
     if (!groups[dept]) {
       groups[dept] = []
     }

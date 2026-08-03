@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref, watch } from 'vue'
 import { updateMyRequirement } from '@/api/requirements'
+import { DEPARTMENT_OPTIONS } from '@/utils/departments'
 
 const props = defineProps({
   modelValue: { type: Boolean, required: true },
@@ -102,7 +103,21 @@ const submit = async () => {
     <el-form label-position="top">
       <div class="edit-grid">
         <el-form-item label="部门名称（必填）">
-          <el-input v-model="form.department" />
+          <el-select
+            v-model="form.department"
+            filterable
+            allow-create
+            default-first-option
+            placeholder="请选择部门"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="option in DEPARTMENT_OPTIONS"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="需求人姓名（必填）">
           <el-input v-model="form.requester" />

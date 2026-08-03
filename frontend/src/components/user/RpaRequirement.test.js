@@ -73,6 +73,7 @@ describe('RpaRequirement own uploads', () => {
     await flushPromises()
 
     const state = wrapper.vm.$.setupState
+    state.form.department = '客服部'
     state.form.title = newRequirement.title
     state.form.requester = '小王'
     const submitButton = wrapper.findAll('button').find(

@@ -1,7 +1,11 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import http from '@/api/http'
-import { departmentFromProjectName, normalizeDepartment } from '@/utils/departments'
+import {
+  departmentFromProjectName,
+  departmentGroup,
+  normalizeDepartment,
+} from '@/utils/departments'
 
 const projects = ref([])
 const requirements = ref([])
@@ -22,6 +26,7 @@ const filteredRequirements = computed(() =>
   requirements.value.filter((req) =>
     includesKeyword(
       normalizeDepartment(req.department),
+      departmentGroup(req.department),
       req.department,
       req.title,
       req.requester,
@@ -45,7 +50,7 @@ const filteredProjects = computed(() =>
 const groupedRequirements = computed(() => {
   const groups = {}
   filteredRequirements.value.forEach((req) => {
-    const dept = normalizeDepartment(req.department)
+    const dept = departmentGroup(req.department)
     if (!groups[dept]) groups[dept] = []
     groups[dept].push(req)
   })
