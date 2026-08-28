@@ -118,6 +118,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import http from '@/api/http'
+import { departmentGroup } from '@/utils/departments'
 
 const props = defineProps({
   apiPrefix: { type: String, default: '/admin' },
@@ -143,7 +144,7 @@ const reviewProgress = computed(() =>
 const groupedByDept = computed(() => {
   const groups = {}
   requirements.value.forEach((r) => {
-    const dept = r.department || '未指定部门'
+    const dept = departmentGroup(r.department)
     if (!groups[dept]) groups[dept] = []
     groups[dept].push(r)
   })

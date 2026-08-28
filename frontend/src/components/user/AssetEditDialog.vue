@@ -3,6 +3,7 @@ import { computed, reactive, watch } from 'vue'
 import { ASSET_TYPES } from '@/config/assetTypes'
 import { updateMyAsset } from '@/api/assets'
 import { validateFileName } from '@/utils/fileValidation'
+import { DEPARTMENT_OPTIONS } from '@/utils/departments'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
@@ -108,7 +109,22 @@ const save = async () => {
         <el-input v-model="form.name" data-test="edit-name" maxlength="100" show-word-limit />
       </el-form-item>
       <el-form-item label="*部门名称">
-        <el-input v-model="form.department" data-test="edit-department" maxlength="50" />
+        <el-select
+          v-model="form.department"
+          data-test="edit-department"
+          filterable
+          allow-create
+          default-first-option
+          placeholder="请选择部门"
+          style="width: 100%"
+        >
+          <el-option
+            v-for="option in DEPARTMENT_OPTIONS"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="*提交人姓名">
         <el-input v-model="form.submitter" data-test="edit-submitter" maxlength="50" />

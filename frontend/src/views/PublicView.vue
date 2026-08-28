@@ -3,7 +3,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import http from '@/api/http'
 import { fetchPublicAssets } from '@/api/assets'
-import { departmentFromProjectName } from '@/utils/departments'
+import { departmentFromProjectName, departmentGroup } from '@/utils/departments'
 
 /* 设计规范（taste-skill，VARIANCE 8 / MOTION 7 / DENSITY 4）：
    全页浅色单主题，配色参考 OpenAI 的克制感（米白底 + 近黑文字，标题强调词用淡紫渐变），
@@ -492,7 +492,7 @@ const processedProjects = computed(() => [
     rowKey: `${asset.asset_type}-${asset.id}`,
     resourceType: asset.asset_type,
     resourceLabel: RESOURCE_LABELS[asset.asset_type] || '其他',
-    department: asset.department || '未指定部门',
+    department: departmentGroup(asset.department),
     status: asset.lifecycle_status,
     progress: Number(asset.progress || 0),
   })),

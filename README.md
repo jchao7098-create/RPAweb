@@ -3,6 +3,35 @@
 内网使用的 RPA 项目全生命周期管理平台：需求提交与审核、开发进度公示、维护记录，
 以及员工代码资产（Skill 文件 / Python 插件）的登记、审核与公开看板。
 
+> [!IMPORTANT]
+> 本项目面向**公司局域网/内网环境**部署和使用，不是公网网站。数据库、员工资料、
+> RPA 需求以及 Skill/Python 资产均属于内部业务数据。请勿将数据库端口、上传目录、
+> `.env`、令牌密钥或未经过安全加固的服务暴露到互联网。
+
+## Windows 本地浏览
+
+首次运行前，需要按照下方“本地开发”章节安装后端和前端依赖。依赖准备完成后，
+在项目根目录打开 PowerShell，执行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start-intranet.ps1
+```
+
+脚本会先构建前端，再通过 Waitress 启动一个前后端合并的本地测试服务。启动完成后访问：
+
+```text
+http://127.0.0.1:8088/
+```
+
+同一局域网内的同事也可以使用脚本输出的内网地址访问，例如
+`http://<本机内网IP>:8088/`。该脚本固定使用 `8088`，不会停止或占用现有的 `8090` 服务。
+
+停止本地测试服务：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\stop-intranet.ps1
+```
+
 ## 架构
 
 ```

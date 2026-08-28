@@ -120,6 +120,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { fetchAdminAssets, approveAsset, rejectAsset } from '@/api/assets'
+import { departmentGroup } from '@/utils/departments'
 
 const props = defineProps({
   fixedType: { type: String, default: '' },
@@ -151,7 +152,7 @@ const statusChip = (status) =>
 const groupedByDept = computed(() => {
   const groups = {}
   assets.value.forEach((asset) => {
-    const dept = asset.department || '未指定部门'
+    const dept = departmentGroup(asset.department)
     if (!groups[dept]) groups[dept] = []
     groups[dept].push(asset)
   })
